@@ -180,6 +180,12 @@ add_event("event_player_disconnect",
         ('name', str),
         ('steamid', str),
         ('bot', to_bool))
+add_event("event_round_end_stats",
+        ('userid', userid),
+        ('frags', int),
+        ('assists', int),
+        ('score', int),
+        ('mvps', int))
 
 add_event("event_cs_intermission")
 add_event("event_match_end")

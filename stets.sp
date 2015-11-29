@@ -3,6 +3,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
+#include <cstrike>
 #include <pugsetup.inc>
 
 #define PLUGIN_VERSION "0.0.1"
@@ -211,7 +212,7 @@ public Action Event_WeaponFireEmpty(Event event, const char[] name, bool dontBro
 public Action Event_WeaponOutOfAmmo(Event event, const char[] name, bool dontBroadcast) {
   char weapon[32];
   GetClientWeapon(event.GetInt("userid"), weapon, sizeof(weapon));
-  
+
   WriteLine("event_weapon_out_of_ammo %i '%s'", event.GetInt("userid"), weapon);
 }
 
@@ -225,7 +226,7 @@ public Action Event_WeaponReload(Event event, const char[] name, bool dontBroadc
 public Action Event_WeaponZoom(Event event, const char[] name, bool dontBroadcast) {
   char weapon[32];
   GetClientWeapon(event.GetInt("userid"), weapon, sizeof(weapon));
-  
+
   WriteLine("event_weapon_zoom %i '%s'", event.GetInt("userid"), weapon);
 }
 
@@ -293,6 +294,19 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 
 public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast) {
   WriteLine("event_round_end");
+
+  for (new i = 1; i < MAXPLAYERS; i++) {
+    if (IsClientInGame(i)) {
+      WriteLine("event_round_end_stats %i %i %i %i %i",
+        i,
+        GetClientFrags(i),
+        CS_GetClientAssists(i),
+        CS_GetClientContributionScore(i),
+        CS_GetMVPCount(i)
+      );
+
+    }
+  }
 }
 
 public Action Event_PlayerChat(Event event, const char[] name, bool dontBroadcast) {
