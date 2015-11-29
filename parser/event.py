@@ -11,13 +11,12 @@ class Event(object):
     DATA_RE = re.compile("([0-9]+|\'.+?\')")
 
     def __init__(self, data):
-        self.time_major = int(data[0])
-        self.time_minor = int(data[1])
-        self.name = data[2].strip()
+        self.tick = int(data[0])
+        self.name = data[1].strip()
         self.data = EventData()
 
         attrs = []
-        for item in self.DATA_RE.findall(data[3]):
+        for item in self.DATA_RE.findall(data[2]):
             if item[0] == "'" and item[-1] == "'":
                 attrs.append(item[1:-1])
             else:

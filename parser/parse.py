@@ -8,7 +8,7 @@ class EOF(IOError):
     pass
 
 class Parser(object):
-    LINE_RE = re.compile("\[([\d]+)\-([\d]+)\] (\w+)(.+)?")
+    LINE_RE = re.compile("\[([\d]+)\] (\w+)(.+)?")
 
     def __init__(self, fobj):
         self.obj = fobj

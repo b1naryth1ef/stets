@@ -72,7 +72,7 @@ void WriteLine(const char[] format, any ...) {
   VFormat(buffer, sizeof(buffer), format, 2);
 
   char final[2048];
-  Format(final, sizeof(final), "[%i-%i] %s", GetTime(), GetSysTickCount(), buffer);
+  Format(final, sizeof(final), "[%i] %s", GetGameTime(), buffer);
 
   LOG_FILE.WriteLine(final);
 
