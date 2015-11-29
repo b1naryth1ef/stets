@@ -3,8 +3,6 @@ import re, sys
 from collections import defaultdict
 
 from event import Event
-from state import *
-
 
 class EOF(IOError):
     pass
@@ -48,9 +46,16 @@ class Parser(object):
             try:
                 self.parseLine()
             except EOF:
+                for cb in self.cbs:
+                    cb(None)
+                for d in self.dels:
+                    if hasattr(d, 'complete'):
+                        d.complete()
                 break
 
 if __name__ == "__main__":
+    """
+    Dump a log to JSON:
     from delegates.tojson import JSONDelegation
     to_json = JSONDelegation()
 
@@ -60,4 +65,12 @@ if __name__ == "__main__":
 
     with open(sys.argv[2], 'w') as f:
         f.write(to_json.dump())
+    """
+
+    from delegates.stats import StatsDelegation
+    stats = StatsDelegation()
+
+    parser = Parser(open(sys.argv[1], 'r'))
+    parser.delegate(stats)
+    parser.parse()
 

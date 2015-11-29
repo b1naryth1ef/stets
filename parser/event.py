@@ -42,6 +42,11 @@ def userid(i=None):
         return int(i)
     return i
 
+def to_bool(i=None):
+    if not i:
+        return False
+    return bool(int(i))
+
 def add_event(n, *args):
     EVENTS[n] = OrderedDict(args)
 
@@ -52,7 +57,7 @@ add_event("event_player_death",
         ('attacker', userid),
         ('assister', userid),
         ('weapon', str),
-        ('headshot', bool),
+        ('headshot', to_bool),
         ('penetrated', int))
 add_event("event_player_hurt",
         ('userid', userid),
@@ -95,7 +100,7 @@ add_event("event_defuser_pickup",
         ('entity', int))
 add_event("event_bomb_begin_defuse",
         ('userid', userid),
-        ('haskit', bool))
+        ('haskit', to_bool))
 add_event("event_bomb_abort_defuse",
         ('userid', userid))
 add_event("event_player_radio",
@@ -104,7 +109,7 @@ add_event("event_player_radio",
 add_event("event_weapon_fire",
         ('userid', userid),
         ('weapon', str),
-        ('silenced', bool))
+        ('silenced', to_bool))
 add_event("event_weapon_fire_empty",
         ('userid', userid),
         ('weapon', str))
@@ -120,7 +125,7 @@ add_event("event_weapon_zoom",
 add_event("event_item_pickup",
         ('userid', userid),
         ('item', str),
-        ('silent', bool))
+        ('silent', to_bool))
 add_event("event_he_detonate",
         ('userid', userid),
         ('entity', int),
@@ -151,7 +156,7 @@ add_event("event_decoy_detonate",
         ('y', float),
         ('z', float))
 add_event("event_player_chat",
-        ('teamonly', bool),
+        ('teamonly', to_bool),
         ('userid', userid),
         ('msg', str))
 add_event("event_player_score",
@@ -168,13 +173,13 @@ add_event("event_player_connect",
         ('index', userid),
         ('userid', userid),
         ('steamid', str),
-        ('bot', bool))
+        ('bot', to_bool))
 add_event("event_player_disconnect",
         ('userid', userid),
         ('reason', str),
         ('name', str),
         ('steamid', str),
-        ('bot', bool))
+        ('bot', to_bool))
 
 add_event("event_cs_intermission")
 add_event("event_match_end")
