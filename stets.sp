@@ -6,7 +6,7 @@
 #include <cstrike>
 
 #define PLUGIN_VERSION "0.0.1"
-#define FORMAT_VERSION "0.0.1"
+#define FORMAT_VERSION "0.0.2"
 
 File LOG_FILE;
 
@@ -371,10 +371,11 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
   for (new i = 1; i < MAXPLAYERS; i++) {
     if (IsClientInGame(i)) {
       GetClientName(i, buff, sizeof(buff));
-      WriteLine("event_round_end_stats %i %i %i %i %i %i '%s'",
+      WriteLine("event_round_end_stats %i %i %i %i %i %i %i '%s'",
         GetClientUserId(i),
         GetClientFrags(i),
         CS_GetClientAssists(i),
+        GetClientDeaths(i),
         CS_GetClientContributionScore(i),
         CS_GetMVPCount(i),
         GetClientTeam(i),

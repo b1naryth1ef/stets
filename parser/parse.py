@@ -2,7 +2,7 @@ import re, sys
 
 from collections import defaultdict
 
-from event import Event
+from event import Event, FORMAT_VERSION 
 
 class EOF(IOError):
     pass
@@ -32,6 +32,11 @@ class Parser(object):
             raise Exception("Failed to regex parse line `%s`" % line.strip())
 
         event = Event(data[0])
+        
+        if event.name == 'init':
+            if event.data.format_version != FORMAT_VERSION:
+                raise Exception("Unsupported format version %s vs %s" % (event.data.format_version, FORMAT_VERSION))
+
         if event.name in self.cbs:
             map(lambda i: i(event), self.cbs[event.name])
 

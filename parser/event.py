@@ -2,6 +2,8 @@ import re
 
 from collections import OrderedDict
 
+FORMAT_VERSION = '0.0.2'
+
 EVENTS = {}
 
 class EventData(object):
@@ -194,6 +196,7 @@ add_event("event_round_end_stats",
         ('userid', userid),
         ('frags', int),
         ('assists', int),
+        ('deaths', int),
         ('score', int),
         ('mvps', int),
         ('team', int),
