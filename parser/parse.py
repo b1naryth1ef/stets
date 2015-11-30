@@ -74,3 +74,6 @@ if __name__ == "__main__":
     parser.delegate(stats)
     parser.parse()
 
+    with open(sys.argv[2], 'w') as f:
+        f.write(stats.render())
+

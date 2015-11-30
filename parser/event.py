@@ -8,7 +8,7 @@ class EventData(object):
     pass
 
 class Event(object):
-    DATA_RE = re.compile("([0-9]+|\'.+?\')")
+    DATA_RE = re.compile("([0-9.]+|\'.+?\'|\'\')")
 
     def __init__(self, data):
         self.tick = int(data[0])
@@ -24,6 +24,13 @@ class Event(object):
 
         if self.name not in EVENTS:
             raise Exception("Could not find event `%s`" % self.name)
+
+        if len(EVENTS[self.name].values()) != len(attrs):
+            print data
+            raise Exception("Invalid number of arguments for %s (%s)" % (self.name, attrs))
+
+        if self.name == "event_round_end_stats":
+            print data, attrs
 
         for dex, i in enumerate(EVENTS[self.name].items()):
             try:
@@ -49,8 +56,11 @@ def to_bool(i=None):
 def add_event(n, *args):
     EVENTS[n] = OrderedDict(args)
 
-add_event("init", ('version', str))
-
+add_event("init",
+        ('time', int),
+        ('plugin_version', str),
+        ('format_version', str),
+        ('filename', str))
 add_event("event_player_death",
         ('userid', userid),
         ('attacker', userid),
@@ -90,8 +100,7 @@ add_event("event_bomb_dropped",
         ('userid', userid),
         ('site', int))
 add_event("event_bomb_pickup",
-        ('userid', userid),
-        ('site', int))
+        ('userid', userid))
 add_event("event_defuser_drop",
         ('entity', int))
 add_event("event_defuser_pickup",
@@ -155,7 +164,9 @@ add_event("event_decoy_detonate",
         ('y', float),
         ('z', float))
 add_event("event_player_chat",
-        ('teamonly', to_bool),
+        ('userid', userid),
+        ('msg', str))
+add_event("event_player_chat_team",
         ('userid', userid),
         ('msg', str))
 add_event("event_player_score",
@@ -184,10 +195,30 @@ add_event("event_round_end_stats",
         ('frags', int),
         ('assists', int),
         ('score', int),
-        ('mvps', int))
-
-add_event("event_cs_intermission")
-add_event("event_match_end")
-add_event("event_round_start")
-add_event("event_round_end")
-
+        ('mvps', int),
+        ('team', int),
+        ('name', str))
+add_event("event_cs_intermission",
+        ('time', int))
+add_event("event_match_end",
+        ('time', int))
+add_event("event_round_start",
+        ('time', int))
+add_event("event_round_end",
+        ('time', int))
+add_event("event_weapon_drop",
+        ('userid', userid),
+        ('weapon', str))
+add_event("event_round_mvp",
+        ('userid', userid),
+        ('reason', int))
+add_event("event_inspect_weapon",
+        ('userid', userid))
+add_event("event_player_fall_damage",
+        ('userid', userid),
+        ('damage', int))
+add_event("event_player_team",
+        ('userid', userid),
+        ('new_team', int),
+        ('old_team', int))
+add_event("event_player_blind", ('userid', userid))

@@ -1,0 +1,29 @@
+<h1>Scoreboard</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Steam ID</th>
+    <th>Kills</th>
+    <th>Assists</th>
+    <th>Deaths</th>
+    <th>Score</th>
+    <th>MVPs</th>
+  </tr>
+
+  {% for player in users %}
+  {% if not player.is_bot %}
+    <tr>
+      <td>{{ player.userid }}</td>
+      <td>{{ player.name }}</td>
+      <td>{{ player.steamid }}</td>
+      <td>{{ player.frags }}</td>
+      <td>{{ player.assists }}</td>
+      <td>{{ player.deaths }}</td>
+      <td>{{ player.score }}</td>
+      <td>{{ player.mvps }}</td>
+    </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+
